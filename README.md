@@ -2,7 +2,7 @@
 
 A small Kotlin/Spring Boot app for managing users, with a Vaadin UI and Postgres behind it. I built it to play with Vaadin's Flow + the KaribuDSL Kotlin bindings instead of the usual REST-plus-SPA split, so the whole thing — UI and server logic — lives in one codebase.
 
-Login, role-based access (USER vs ADMIN), a paginated/searchable user grid, and an audit trail of every change admins make.
+## Demonstration [images & video](DEMO.md)
 
 ## What's under the hood
 
