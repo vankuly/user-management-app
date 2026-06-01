@@ -27,7 +27,7 @@ open class AuditLogView(private val auditLogService: AuditLogService) : Vertical
         grid.addColumn { it.targetUserEmail }.setHeader("Target User").isResizable = true
         grid.addColumn { it.performedBy    }.setHeader("Performed By").isResizable = true
         grid.addColumn { it.details ?: "-" }.setHeader("Details").isResizable = true
-        grid.addColumn { formatInstant(it.createdAt) }.apply {
+        grid.addColumn { Formatters.dateTimeSeconds(it.createdAt) }.apply {
             setHeader("Timestamp")
             setSortProperty("createdAt")
             isResizable = true
@@ -48,14 +48,10 @@ open class AuditLogView(private val auditLogService: AuditLogService) : Vertical
                 )
                 auditLogService.findAll(pageable).stream()
             },
-            { auditLogService.findAll(PageRequest.of(0, 1)).totalElements.toInt() },
+            { auditLogService.count().toInt() },
         )
 
         grid.setItems(dataProvider)
         add(grid)
     }
-
-    private fun formatInstant(instant: java.time.Instant): String =
-        instant.atZone(java.time.ZoneId.systemDefault())
-               .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 }

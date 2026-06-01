@@ -6,12 +6,13 @@ import com.example.usermgmt.domain.UpdateUserRequest
 import com.example.usermgmt.domain.UserDto
 import com.example.usermgmt.service.UserService
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.notification.NotificationVariant
-import com.vaadin.flow.component.orderedlayout.FlexComponent
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.PasswordField
 import com.vaadin.flow.component.textfield.TextField
 import org.springframework.security.core.context.SecurityContextHolder
@@ -57,7 +58,7 @@ class UserDialog(
             setWidthFull()
         }
         roleField.apply {
-            setItems(*Role.values())
+            setItems(Role.entries)
             isAllowCustomValue = false
             isRequiredIndicatorVisible = true
             value = user?.role ?: Role.USER
@@ -65,18 +66,16 @@ class UserDialog(
         }
 
         add(
-            com.vaadin.flow.component.orderedlayout.VerticalLayout(
-                nameField, emailField, passwordField, roleField
-            ).apply {
+            VerticalLayout(nameField, emailField, passwordField, roleField).apply {
                 isPadding = false
                 isSpacing = true
                 setWidthFull()
             }
         )
 
-        val saveBtn = com.vaadin.flow.component.button.Button("Save") { save() }
+        val saveBtn = Button("Save") { save() }
             .apply { addThemeVariants(ButtonVariant.LUMO_PRIMARY) }
-        val cancelBtn = com.vaadin.flow.component.button.Button("Cancel") { close() }
+        val cancelBtn = Button("Cancel") { close() }
 
         footer.add(cancelBtn, saveBtn)
     }

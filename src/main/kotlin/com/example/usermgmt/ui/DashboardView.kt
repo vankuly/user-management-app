@@ -24,10 +24,6 @@ import jakarta.annotation.security.RolesAllowed
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.security.core.context.SecurityContextHolder
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-
 @Route("", layout = MainLayout::class)
 @PageTitle("Dashboard | User Management")
 @RolesAllowed("USER", "ADMIN")
@@ -136,12 +132,12 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
                 setHeader("Role")
                 isResizable = true
             }
-            addColumn { formatInstant(it.createdAt) }.apply {
+            addColumn { Formatters.dateTime(it.createdAt) }.apply {
                 setHeader("Created At")
                 setSortProperty("createdAt")
                 isResizable = true
             }
-            addColumn { formatInstant(it.updatedAt) }.apply {
+            addColumn { Formatters.dateTime(it.updatedAt) }.apply {
                 setHeader("Updated At")
                 setSortProperty("updatedAt")
                 isResizable = true
@@ -278,10 +274,6 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
-
-    private fun formatInstant(instant: Instant): String =
-        instant.atZone(ZoneId.systemDefault())
-               .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
 
     private fun showSuccess(msg: String) =
         Notification.show(msg, 3_000, Notification.Position.BOTTOM_END)

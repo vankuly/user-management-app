@@ -30,6 +30,9 @@ class AuditLogService(private val auditLogRepository: AuditLogRepository) {
         auditLogRepository.findAll(pageable).map { it.toDto() }
 
     @Transactional(readOnly = true)
+    fun count(): Long = auditLogRepository.count()
+
+    @Transactional(readOnly = true)
     fun findByUserId(userId: Long, pageable: Pageable): Page<AuditLogDto> =
         auditLogRepository.findByTargetUserId(userId, pageable).map { it.toDto() }
 
