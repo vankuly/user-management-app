@@ -17,8 +17,6 @@ class UserService(
     private val auditLogService: AuditLogService,
 ) {
 
-    // ── Queries ──────────────────────────────────────────────────────────────
-
     @Transactional(readOnly = true)
     fun findAll(filter: UserFilter, pageable: Pageable): Page<UserDto> =
         userRepository
@@ -34,8 +32,6 @@ class UserService(
         userRepository.findById(id)
             .map { it.toDto() }
             .orElseThrow { NoSuchElementException("User $id not found") }
-
-    // ── Commands ─────────────────────────────────────────────────────────────
 
     fun create(request: CreateUserRequest, performedBy: String): UserDto {
         require(!userRepository.existsByEmail(request.email)) {
