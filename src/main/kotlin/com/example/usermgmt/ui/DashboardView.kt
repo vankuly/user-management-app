@@ -48,6 +48,9 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
         get() = SecurityContextHolder.getContext().authentication
             ?.authorities?.any { it.authority == "ROLE_ADMIN" } == true
 
+    private val currentUsername: String?
+        get() = SecurityContextHolder.getContext().authentication?.name
+
     init {
         setSizeFull()
         isPadding = true
@@ -159,6 +162,11 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
                                     ButtonVariant.LUMO_SMALL,
                                 )
                                 addClickListener { openDeleteConfirm(user) }
+                                // You cannot delete the account you are logged in as.
+                                if (user.email.equals(currentUsername, ignoreCase = true)) {
+                                    isEnabled = false
+                                    element.setProperty("title", "You cannot delete your own account")
+                                }
                             },
                         )
                     }

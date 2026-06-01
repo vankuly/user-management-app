@@ -102,6 +102,9 @@ class UserService(
     fun delete(id: Long, performedBy: String) {
         val user = userRepository.findById(id)
             .orElseThrow { NoSuchElementException("User $id not found") }
+        require(!user.email.equals(performedBy, ignoreCase = true)) {
+            "You cannot delete your own account"
+        }
         auditLogService.log(AuditAction.DELETE, user, performedBy, "User deleted")
         userRepository.delete(user)
     }

@@ -155,4 +155,17 @@ class UserServiceTest {
             userService.delete(99L, "admin")
         }
     }
+
+    @Test
+    fun `delete throws when deleting own account`() {
+        val user = sampleUser(1L)
+        every { userRepository.findById(1L) } returns Optional.of(user)
+
+        val ex = assertThrows<IllegalArgumentException> {
+            userService.delete(1L, "alice@example.com")
+        }
+        assertTrue(ex.message!!.contains("your own account"))
+        verify(exactly = 0) { userRepository.delete(any()) }
+        verify(exactly = 0) { auditLogService.log(any(), any(), any(), any()) }
+    }
 }
