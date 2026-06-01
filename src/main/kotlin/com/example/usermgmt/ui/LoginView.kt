@@ -2,6 +2,7 @@ package com.example.usermgmt.ui
 
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.login.LoginForm
+import com.vaadin.flow.component.login.LoginI18n
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.router.BeforeEnterEvent
@@ -24,6 +25,12 @@ open class LoginView : VerticalLayout(), BeforeEnterObserver {
         alignItems        = FlexComponent.Alignment.CENTER
 
         loginForm.action = "login"
+        loginForm.setI18n(
+            LoginI18n.createDefault().apply {
+                form.username = "Email"
+                errorMessage.username = "Email is required"
+            }
+        )
 
         add(loginForm)
     }
