@@ -2,6 +2,8 @@
 
 A full-stack web application built with **Kotlin**, **Spring Boot**, **Vaadin 24**, and **PostgreSQL**.
 
+## Demonstration [images & video](DEMO.md)
+
 ---
 
 ## Tech Stack
