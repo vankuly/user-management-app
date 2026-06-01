@@ -1,6 +1,10 @@
 package com.example.usermgmt.domain
 
 import jakarta.persistence.*
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import java.time.Instant
@@ -53,17 +57,34 @@ data class UserDto(
 )
 
 data class CreateUserRequest(
+    @field:NotBlank(message = "Name is required")
     val name: String,
+
+    @field:NotBlank(message = "Email is required")
+    @field:Email(message = "Must be a valid email address")
     val email: String,
+
+    @field:NotBlank(message = "Password is required")
+    @field:Size(min = 6, message = "Password must be at least 6 characters")
     val password: String,
+
+    @field:NotNull(message = "Role is required")
     val role: Role,
 )
 
 data class UpdateUserRequest(
+    @field:NotBlank(message = "Name is required")
     val name: String,
+
+    @field:NotBlank(message = "Email is required")
+    @field:Email(message = "Must be a valid email address")
     val email: String,
+
     /** Null means "leave the password unchanged". */
+    @field:Size(min = 6, message = "Password must be at least 6 characters")
     val password: String?,
+
+    @field:NotNull(message = "Role is required")
     val role: Role,
 )
 

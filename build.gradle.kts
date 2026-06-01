@@ -40,6 +40,13 @@ dependencies {
     // KaribuDSL – idiomatic Kotlin DSL for Vaadin
     implementation("com.github.mvysny.karibudsl:karibu-dsl:2.2.0")
 
+    // REST + OpenAPI / Swagger UI
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    // OpenAPI spec generation only (the bundled Swagger UI webjar conflicts with
+    // Vaadin's root servlet mapping, so we self-host the UI under /swagger/ instead).
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0")
+
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
