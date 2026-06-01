@@ -4,10 +4,6 @@ import com.example.usermgmt.domain.*
 import com.example.usermgmt.repository.UserRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,22 +15,7 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     private val auditLogService: AuditLogService,
-) : UserDetailsService {
-
-    // ── Spring Security ──────────────────────────────────────────────────────
-
-    /** Looks up by email (used as the username). */
-    @Transactional(readOnly = true)
-    override fun loadUserByUsername(username: String): UserDetails =
-        userRepository.findByEmail(username)
-            .map { user ->
-                org.springframework.security.core.userdetails.User(
-                    user.email,
-                    user.password,
-                    listOf(SimpleGrantedAuthority("ROLE_${user.role.name}")),
-                )
-            }
-            .orElseThrow { UsernameNotFoundException("No user with email: $username") }
+) {
 
     // ── Queries ──────────────────────────────────────────────────────────────
 
