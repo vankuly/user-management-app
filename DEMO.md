@@ -3,28 +3,42 @@
 
 ## Login page
 
-![image](/imgs/Screenshot 2026-06-01 at 21.04.15.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 21.04.15.png">
+</picture>
 
 ## Dashboard (ADMIN view)
 
-![image](/imgs/Screenshot 2026-06-01 at 21.04.44.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 21.04.44.png">
+</picture>
 
 ## Dashboard (USER view)
 
-![image](/imgs/Screenshot 2026-06-01 at 21.06.57.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 21.06.57.png">
+</picture>
 
 ## Pagination
 
-![image](/imgs/Screenshot 2026-06-01 at 21.05.24.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 21.05.24.png">
+</picture>
 
 ## Search
 
-![image](/imgs/Screenshot 2026-06-01 at 21.05.07.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 21.05.07.png">
+</picture>
 
 ## Audit Log (visible only to ADMIN)
 
-![image](/imgs/Screenshot 2026-06-01 at 21.06.24.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 21.06.24.png">
+</picture>
 
 ## Swagger
 
-![image](/imgs/Screenshot 2026-06-01 at 22.20.48.png)
+<picture>
+  <img src="imgs/Screenshot 2026-06-01 at 22.20.48.png">
+</picture>
