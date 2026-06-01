@@ -42,3 +42,13 @@ target/
 .gradle/
 build/
 !gradle-wrapper.properties
+
+# macOS
+.DS_Store
+
+# Vaadin / Node generated frontend artifacts
+node_modules/
+src/main/frontend/generated/
+src/main/bundles/
+vite.generated.ts
+.vaadin/
