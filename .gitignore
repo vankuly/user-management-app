@@ -10,8 +10,15 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 # Package Files #
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar
 *.ear
@@ -23,5 +30,15 @@
 hs_err_pid*
 replay_pid*
 
+#HELP.md
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
 # Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
+
+### Gradle ###
+.gradle/
+build/
+!gradle-wrapper.properties
