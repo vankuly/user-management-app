@@ -94,13 +94,3 @@ src/main/kotlin/com/example/usermgmt/
 │   └── AuditLogService.kt
 └── ui/                             # Vaadin views and dialogs
 ```
-
-## A few decisions worth explaining
-
-**Vaadin instead of a REST API + frontend framework.** Keeping the UI and server logic together cut out a lot of boilerplate, and it's what let me lean on KaribuDSL. The service layer is decoupled enough that bolting a REST layer on later wouldn't be a big lift.
-
-**Default accounts come from code, not the seed migration.** `DataInitializer` creates the admin/user accounts on startup so their passwords get hashed by the real `BCryptPasswordEncoder` rather than baked in as a hardcoded hash. It's idempotent, so it's safe on every boot.
-
-**Auth lookup lives in its own class.** `DatabaseUserDetailsService` handles the Spring Security side so `UserService` stays focused on CRUD and business rules — the two concerns can change independently.
-
-**H2 for tests, Postgres for real.** H2 in Postgres mode keeps CI and local test runs dependency-free. The `user_role` enum maps cleanly to `VARCHAR` there thanks to `EnumType.STRING`.
