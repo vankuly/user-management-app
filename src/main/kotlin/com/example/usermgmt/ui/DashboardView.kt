@@ -1,8 +1,7 @@
 package com.example.usermgmt.ui
 
 import com.example.usermgmt.domain.UserDto
-import com.example.usermgmt.domain.UserFilter
-import com.example.usermgmt.service.UserService
+import com.example.usermgmt.web.UserController
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
@@ -27,7 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 @Route("", layout = MainLayout::class)
 @PageTitle("Dashboard | User Management")
 @RolesAllowed("USER", "ADMIN")
-open class DashboardView(private val userService: UserService) : VerticalLayout() {
+open class DashboardView(private val userController: UserController) : VerticalLayout() {
 
     private val nameFilter  = TextField()
     private val emailFilter = TextField()
@@ -231,14 +230,12 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
 
     // ── Data loading ───────────────────────────────────────────────────────────
 
-    private fun currentFilter() = UserFilter(
-        name  = nameFilter.value.takeIf { it.isNotBlank() },
-        email = emailFilter.value.takeIf { it.isNotBlank() },
-    )
-
     private fun loadPage() {
-        val filter = currentFilter()
-        val page   = userService.findAll(filter, PageRequest.of(currentPage, pageSize, sort))
+        val page = userController.list(
+            name     = nameFilter.value.takeIf { it.isNotBlank() },
+            email    = emailFilter.value.takeIf { it.isNotBlank() },
+            pageable = PageRequest.of(currentPage, pageSize, sort),
+        )
 
         totalPages  = page.totalPages.coerceAtLeast(1)
         currentPage = currentPage.coerceIn(0, totalPages - 1)
@@ -259,11 +256,11 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
     // ── Dialogs ──────────────────────────────────────────────────────────────
 
     private fun openCreateDialog() {
-        UserDialog(null, userService) { refresh() }.open()
+        UserDialog(null, userController) { refresh() }.open()
     }
 
     private fun openEditDialog(user: UserDto) {
-        UserDialog(user, userService) { refresh() }.open()
+        UserDialog(user, userController) { refresh() }.open()
     }
 
     private fun openDeleteConfirm(user: UserDto) {
@@ -272,8 +269,8 @@ open class DashboardView(private val userService: UserService) : VerticalLayout(
             message   = "Delete '${user.name}' (${user.email})? This cannot be undone.",
             onConfirm = {
                 runCatching {
-                    val principal = SecurityContextHolder.getContext().authentication.name
-                    userService.delete(user.id, principal)
+                    val principal = SecurityContextHolder.getContext().authentication
+                    userController.delete(user.id, principal)
                     showSuccess("User '${user.name}' deleted")
                     refresh()
                 }.onFailure { showError(it.message ?: "Delete failed") }

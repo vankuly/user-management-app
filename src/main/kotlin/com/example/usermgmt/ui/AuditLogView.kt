@@ -1,7 +1,7 @@
 package com.example.usermgmt.ui
 
 import com.example.usermgmt.domain.AuditLogDto
-import com.example.usermgmt.service.AuditLogService
+import com.example.usermgmt.web.AuditLogController
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.DataProvider
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort
 @Route("audit-log", layout = MainLayout::class)
 @PageTitle("Audit Log | User Management")
 @RolesAllowed("ADMIN")
-open class AuditLogView(private val auditLogService: AuditLogService) : VerticalLayout() {
+open class AuditLogView(private val auditLogController: AuditLogController) : VerticalLayout() {
 
     init {
         setSizeFull()
@@ -46,9 +46,9 @@ open class AuditLogView(private val auditLogService: AuditLogService) : Vertical
                     query.limit.coerceAtLeast(1),
                     sort,
                 )
-                auditLogService.findAll(pageable).stream()
+                auditLogController.list(pageable).content.stream()
             },
-            { auditLogService.count().toInt() },
+            { auditLogController.list(PageRequest.of(0, 1)).totalElements.toInt() },
         )
 
         grid.setItems(dataProvider)
