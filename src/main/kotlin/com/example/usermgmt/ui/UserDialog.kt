@@ -4,7 +4,7 @@ import com.example.usermgmt.domain.CreateUserRequest
 import com.example.usermgmt.domain.Role
 import com.example.usermgmt.domain.UpdateUserRequest
 import com.example.usermgmt.domain.UserDto
-import com.example.usermgmt.service.UserService
+import com.example.usermgmt.web.UserController
 import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
@@ -23,7 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder
  */
 class UserDialog(
     private val user: UserDto?,
-    private val userService: UserService,
+    private val userController: UserController,
     private val onSave: () -> Unit,
 ) : Dialog() {
 
@@ -83,11 +83,11 @@ class UserDialog(
     private fun save() {
         if (!validate()) return
 
-        val principal = SecurityContextHolder.getContext().authentication.name
+        val principal = SecurityContextHolder.getContext().authentication
 
         runCatching {
             if (user == null) {
-                userService.create(
+                userController.create(
                     CreateUserRequest(
                         name     = nameField.value.trim(),
                         email    = emailField.value.trim(),
@@ -97,7 +97,7 @@ class UserDialog(
                     principal,
                 )
             } else {
-                userService.update(
+                userController.update(
                     user.id,
                     UpdateUserRequest(
                         name     = nameField.value.trim(),
